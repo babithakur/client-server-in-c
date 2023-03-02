@@ -14,7 +14,6 @@ int main(int argc, char *argv[]){
 	char *ip = argv[1];
 	char *p = argv[2];
 	int port = atoi(p);
-	//char *name = argv[2];
 
 	int server_sock, client_sock;
 	struct sockaddr_in server_addr, client_addr;
@@ -27,7 +26,6 @@ int main(int argc, char *argv[]){
 		perror("[-]Socket error");
 		exit(1);
 	}
-	//printf("[+]TCP server socket created!\n");
 
 	memset(&server_addr, '\0', sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
@@ -39,30 +37,24 @@ int main(int argc, char *argv[]){
 		perror("[-] Bind error");
 		exit(1);
 	}
-	//printf("[+] Bind to the port: %d\n", port);
 	printf("\n=================================================\n");
 	printf("******************SHELLCHAT v1.0*****************\n");
 	printf("=================================================\n");
 	listen(server_sock, 5);
-	//printf("Listening...\n");
 	printf("[+] Waiting for client to join...\n");
 	
-
 	addr_size = sizeof(client_addr);
 	client_sock = accept(server_sock, (struct sockaddr*)&client_addr, &addr_size);
 	printf("[+] Client Joined!\n\n");
 	while(1){
-		//bzero(msg, 1024);
 		RESET(msg)
 		recv(client_sock, msg, sizeof(msg), 0);
 
 		if(strncmp("Client quit!", msg, 12)==0){
 			printf("%s\n", msg);
-			//send(client_sock, msg, strlen(msg), 0);
 			break;
 		}
 		printf("Client: %s\n", msg);
-		//printf("%s\n", msg);
 		n = 0;
 		RESET(msg)
 		printf("Server: ");
@@ -81,4 +73,3 @@ int main(int argc, char *argv[]){
 	printf("[+] Disconnected!\n");
 	return 0;
 }
-

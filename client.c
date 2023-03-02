@@ -14,7 +14,6 @@ int main(int argc, char *argv[]){
 	char *ip = "127.0.0.1";
 	char *p = argv[1];
 	int port = atoi(p);
-	//char *name = argv[2];
 
 	int sock;
 	struct sockaddr_in addr;
@@ -27,7 +26,6 @@ int main(int argc, char *argv[]){
 		perror("[-] Socket error");
 		exit(1);
 	}
-	//printf("[+] TCP server socket created.\n");
 
 	memset(&addr, '\0', sizeof(addr));
 	addr.sin_family = AF_INET;
@@ -48,11 +46,6 @@ int main(int argc, char *argv[]){
 		printf("Client: ");
 		while ((msg[n++] = getchar()) != '\n');
 		
-		//strcpy(buffer, "HELLO");
-		//printf("Client: %s\n", msg);
-		//strcat(name, msg);
-
-
 		if(strncmp("q", msg, 1)==0 || strncmp("Q", msg, 1)==0){
 			char exit_msg[20] = "Client quit!\n";
 			send(sock, exit_msg, strlen(exit_msg), 0);
@@ -60,20 +53,14 @@ int main(int argc, char *argv[]){
 		}
 		send(sock, msg, strlen(msg), 0);
 		
-		//bzero(msg, 1024);
 		RESET(msg)
 		recv(sock, msg, sizeof(msg), 0);
 
 		if(strncmp("Server quit!", msg, 12)==0){
 			printf("%s\n", msg);
-			//send(sock, exit_msg, strlen(exit_msg), 0);
 			break;
 		}
 		printf("Server: %s\n", msg);
-
-		/**if(strncmp("q", msg, 1)==0){
-			break;
-		}**/
 	}
 	
 	close(sock);
